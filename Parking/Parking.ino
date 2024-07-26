@@ -1,3 +1,6 @@
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27,20,4);
+
 #include <dht.h>
 dht DHT;
 #define DHT22_PIN 4
@@ -60,6 +63,9 @@ pinMode(Salida2,INPUT);
 myServo.attach(servo);
 myServo2.attach(servo2);
 
+lcd.init(); 
+lcd.clear();
+lcd.backlight();
 }
 
 void loop() {
@@ -70,12 +76,13 @@ if(empezar0==0){
   grados2=90;
   myServo2.write(90);
   delay(2000);
+  Pantalla1();
 
 }
-
+luces();
 PasoEntrada();
 PasoSalida();
-
+Pantalla();
 TyH ();
 Print();
 
@@ -112,11 +119,9 @@ Serial.print("    ");
 
 Claridad=digitalRead(SensorLuz);
 if (Claridad==0){
-Serial.print("Claro");
-digitalWrite(Farolas, LOW);}
+Serial.print("Claro");}
 else{
-Serial.print("Oscuro");
-digitalWrite(Farolas, HIGH);}
+Serial.print("Oscuro");}
 Serial.print("      ");
 
 Serial.print("Humedad: ");
@@ -125,6 +130,13 @@ Serial.print("%, Temperatura: ");
 Serial.print(temp);
 Serial.println("ºC");
 
+}
+
+void luces(){
+  if (digitalRead(SensorLuz)==0){
+digitalWrite(Farolas, LOW);}
+else{
+digitalWrite(Farolas, HIGH);}
 }
 
 void PasoEntrada() {
@@ -151,6 +163,7 @@ void servoEntradaArriba() {
 for(grados=90;grados>0;grados=grados-1){
 
     delay(30);
+    luces();
     myServo.write(grados);
 
   }
@@ -160,6 +173,7 @@ void servoEntradaAbajo(){
     for(grados=0;grados<90;grados=grados+1){
 
     delay(30);
+    luces();
     myServo.write(grados);
 
   }
@@ -189,6 +203,7 @@ void servoSalidaAbajo() {
     for(grados2=0;grados2<90;grados2=grados2+1){
 
     delay(30);
+    luces();
     myServo2.write(grados2);
 
   }
@@ -198,9 +213,165 @@ void servoSalidaArriba(){
   for(grados2=90;grados2>0;grados2=grados2-1){
 
     delay(30);
+    luces();
     myServo2.write(grados2);
 
   }
+}
+
+void Pantalla () {
+  
+  lcd.setCursor(2,1);
+  lcd.print("Plazas libres:");
+  Plazas=8-coches;
+  lcd.print(Plazas);
+
+  if (coches==8) {
+    lcd.setCursor(3,0);
+  lcd.print("PARKING OCUPADO");
+  }
+  else {
+    lcd.setCursor(4,0);
+  lcd.print("PARKING LIBRE ");
+  }
+
+  lcd.setCursor(2,2);
+  lcd.print("Temperatura:");
+  lcd.setCursor(14,2);
+  lcd.print(temp);
+  lcd.print("C");
+
+  lcd.setCursor(2,3);
+  lcd.print("Humedad:");
+  lcd.setCursor(14,3);
+  lcd.print(hum);
+  lcd.print("%");
+
+
+
+}
+
+void Pantalla1() {
+  lcd.setCursor(0,0);
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(19,1);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(19,2);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(19,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(18,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(17,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(16,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(15,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(14,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(13,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(12,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(11,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(10,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(9,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(8,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(7,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(6,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(5,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(4,3);
+  lcd.print("*");
+  delay(50);lcd.setCursor(3,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(2,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(1,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(0,3);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(0,2);
+  lcd.print("*");
+  delay(50);
+  lcd.setCursor(0,1);
+  lcd.print("*");
+
+  delay(200);
+  lcd.setCursor(6,1);
+  lcd.print("PARKING");
+  lcd.setCursor(5,2);
+  lcd.print("TONTOROLO");
+  delay(5000);
+  lcd.clear();
 }
 
 
